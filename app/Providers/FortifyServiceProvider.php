@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\actions\Fortify\AttemptToAuthenticate as FortifyAttemptToAuthenticate;
 use App\Actions\Fortify\CreateNewUser;
+use App\Actions\Fortify\RedirectIfTwoFactorAuthenticatable as FortifyRedirectIfTwoFactorAuthenticatable;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
@@ -13,8 +15,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Fortify\Actions\AttemptToAuthenticate;
-use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
 use Laravel\Fortify\Fortify;
 
 class FortifyServiceProvider extends ServiceProvider
@@ -26,7 +26,7 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->when([AdminController::class, AttemptToAuthenticate::class,RedirectIfTwoFactorAuthenticatable::class])
+        $this->app->when([AdminController::class, FortifyAttemptToAuthenticate::class,FortifyRedirectIfTwoFactorAuthenticatable::class])
         ->needs(StatefulGuard::class)
         ->give(function(){
             return Auth::guard('admin');
