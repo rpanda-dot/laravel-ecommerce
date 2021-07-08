@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Backend\AdminProfileController;
+use App\Http\Controllers\Backend\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,7 +23,14 @@ Route::get('/', function () {
 Route::group(['prefix' => 'admin', 'middleware' => ['admin:admin']], function () {
     Route::get('/login', [AdminController::class, 'loginForm']);
     Route::post('/login', [AdminController::class, 'store'])->name('amdin.login');
+
+
+    // Routes for products in admin
+     Route::resource('product', ProductController::class);
 });
+
+
+
 
 // Admin Urls
 Route::get('admin/logout', [AdminController::class, 'destroy'])->name('admin.logout');
