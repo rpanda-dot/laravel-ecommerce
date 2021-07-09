@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddDeletedAtColumnToProduct extends Migration
+class AddDeletedAtColumnToProducts extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddDeletedAtColumnToProduct extends Migration
      */
     public function up()
     {
-        Schema::table('product', function (Blueprint $table) {
-            //
+        Schema::table('products', function (Blueprint $table) {
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 
@@ -25,8 +25,8 @@ class AddDeletedAtColumnToProduct extends Migration
      */
     public function down()
     {
-        Schema::table('product', function (Blueprint $table) {
-            //
+        Schema::table('products', function (Blueprint $table) {
+            $table->dropColumn('deleted_at');
         });
     }
 }

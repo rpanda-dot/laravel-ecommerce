@@ -35,6 +35,7 @@
                 <ul class="treeview-menu">
                     <li><a href="{{ route('product.index') }}"><i class="ti-more"></i>All Products</a></li>
                     <li><a href="{{ route('product.create') }}"><i class="ti-more"></i>Add New</a></li>
+                    <li><a href="{{ route('product.categiries') }}"><i class="ti-more"></i>Categories</a></li>
                 </ul>
             </li>
 

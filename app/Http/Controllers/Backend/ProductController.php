@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class ProductController extends Controller
 {
@@ -16,7 +18,8 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        return view('admin.product.list', compact('products'));
+        $trashed_count = Product::onlyTrashed()->count();
+        return view('admin.product.list', compact('products', 'trashed_count'));
     }
 
     /**
@@ -26,8 +29,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('admin.product.create');
-        //
+        $categories = Category::all();
+        return view('admin.product.create', compact('categories'));
     }
 
     /**
@@ -50,6 +53,8 @@ class ProductController extends Controller
         $product->sale_price =  $request->input('sale_price');
         $product->price =  $request->input('price');
         $product->save();
+        $product->categories()->attach($request->input('categories'));
+
 
         $alert_message = [
             'message' => 'Product Created Successfully',
@@ -66,6 +71,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
+        return 'RP';
         //
     }
 
@@ -78,9 +84,13 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::find($id);
-        return view('admin.product.create', compact('product'));
-
-        //
+        $product_categories = $product->categories();
+        $selected_categories = [];
+        foreach ($product->categories as $category) {
+            array_push($selected_categories, $category->pivot->category_id);
+        }
+        $categories = Category::all();
+        return view('admin.product.create', compact('product', 'categories', 'selected_categories'));
     }
 
     /**
@@ -96,6 +106,7 @@ class ProductController extends Controller
             'name' => 'required',
         ]);
 
+
         $product = Product::find($id);
 
         $product->name =  $request->input('name');
@@ -104,6 +115,7 @@ class ProductController extends Controller
         $product->sale_price =  $request->input('sale_price');
         $product->price =  $request->input('price');
         $product->save();
+        $product->categories()->sync($request->input('categories'));
 
         $alert_message = [
             'message' => 'Product Updated Successfully',
@@ -120,6 +132,46 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Product::destroy($id);
+        $products = Product::all();
+        return view('admin.product.list', compact('products'));
+    }
+    public function trashed()
+    {
+        $products = Product::onlyTrashed()->get();
+        return view('admin.product.trashed', compact('products'));
+    }
+    public function restore($product)
+    {
+        Product::onlyTrashed()
+            ->where('id', $product)
+            ->restore();
+
+        $products = Product::onlyTrashed()->get();
+
+        $alert_message = [
+            'message' => 'Product Restored Successfully',
+            'alert-type' => 'success'
+        ];
+        return view('admin.product.trashed', compact('products'))->with($alert_message);
+    }
+    public function empty_trahsed()
+    {
+        return 'Not Working RP';
+        // $products = Product::onlyTrashed()->;
+        // $products
+        // $products->
+
+    }
+    public function permanenet_delete($product)
+    {
+        Product::onlyTrashed()->find($product)->forceDelete();
+
+        $products = Product::onlyTrashed()->get();
+        $alert_message = [
+            'message' => 'Product Deleted Successfully',
+            'alert-type' => 'success'
+        ];
+        return view('admin.product.trashed', compact('products'))->with($alert_message);
     }
 }

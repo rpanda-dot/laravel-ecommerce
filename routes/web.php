@@ -26,7 +26,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin:admin']], function ()
 
 
     // Routes for products in admin
-     Route::resource('product', ProductController::class);
+    Route::get('/product/trashed', [ProductController::class, 'trashed'])->name('product.trashed');
+    Route::get('/product/restore/{product}', [ProductController::class, 'restore'])->name('product.restore');
+    Route::get('/product/empty-trashed', [ProductController::class, 'empty_trahsed'])->name('product.empty_trashed');
+    Route::get('/product/categories', [ProductController::class, 'categories_view'])->name('product.categories');
+    Route::get('/product/permanenet-delete/{product}', [ProductController::class, 'permanenet_delete'])->name('product.permanenet_delete');
+    Route::resource('product', ProductController::class);
 });
 
 
