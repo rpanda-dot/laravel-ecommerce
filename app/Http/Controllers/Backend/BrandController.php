@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
+use App\Models\Brand;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class BrandController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $all_categories = Category::all();
-        return view('admin.product.category', compact('all_categories'));
+        $all_brands = Brand::all();
+        return view('admin.product.brand', compact('all_brands'));
     }
 
     /**
@@ -39,18 +39,24 @@ class CategoryController extends Controller
     {
         $data = request()->validate([
             'name' => 'required',
+            'brand_image' => ['required', 'image']
         ]);
 
-        $category = new Category();
-        $category->name =  $request->input('name');
-        $category->save();
+        $brand = new Brand();
+        $brand->name = $request->input('name');
 
+        $file = $request->file('brand_image');
+        $filename = date('YmdHi') . $file->getClientOriginalName();
+        $file->move(public_path('uploads/brand_logo'), $filename);
+        $brand->brand_image = $filename;
+
+        $brand->save();
 
         $alert_message = [
-            'message' => 'Category Added Successfully',
+            'message' => 'Brand Added Successfully',
             'alert-type' => 'success'
         ];
-        return redirect('admin/category')->with($alert_message);
+        return redirect('admin/brand')->with($alert_message);
     }
 
     /**
@@ -95,7 +101,12 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        Category::destroy($id);
+        $brand = Brand::find($id);
+        @unlink(public_path('uploads/brand_logo/') . $brand->brand_image);
+
+        $brand->delete();
+
         return 1;
+        //
     }
 }

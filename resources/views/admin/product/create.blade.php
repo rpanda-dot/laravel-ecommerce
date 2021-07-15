@@ -48,8 +48,8 @@
                                 <div class="controls">
                                     <input type="number" name="sale_price" class="form-control"
                                         value="{{ old('sale_price') ? old('sale_price') : (isset($product) ? ($product->sale_price ? $product->sale_price : '') : '') }}""
-                                                                                                                required>
-                                                                                                            <div class="
+                                                                                                                        required>
+                                                                                                                    <div class="
                                         help-block">
                                 </div>
                             </div>
@@ -57,17 +57,22 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Multiple</label>
+                            <label>Categories</label>
 
                             <select class="form-control select2 " name="categories[]" multiple="multiple"
-                                data-placeholder="Select a State" style="width: 100%;">
+                                data-placeholder="Select a Category" style="width: 100%;">
 
                                 @foreach ($categories as $item)
-                                    @if ($product && in_array($item->id, $selected_categories))
-                                        <option selected value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @if (isset($product))
+                                        @if (in_array($item->id, $selected_categories))
+                                            <option selected value="{{ $item->id }}">{{ $item->name }}</option>
+
+                                        @endif
                                     @else
                                         <option value="{{ $item->id }}">{{ $item->name }}</option>
+
                                     @endif
+
                                 @endforeach
                             </select>
                         </div>
@@ -85,8 +90,8 @@
                     <div class="box-body">
 
                         <textarea id="long_description" name="long_description" rows="10" cols="80">
-                                                                                                                        {{ old('long_description') ? old('long_description') : (isset($product) ? ($product->long_description ? $product->long_description : '') : '') }}
-                                                                                                                                                        </textarea>
+                                                                                                                                {{ old('long_description') ? old('long_description') : (isset($product) ? ($product->long_description ? $product->long_description : '') : '') }}
+                                                                                                                                                                </textarea>
                     </div>
                 </div>
 
@@ -104,8 +109,8 @@
                         <textarea name="short_description" id="short_description" class="textarea"
                             placeholder="Short Description of your product"
                             style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">
-                                                                                                                        {{ old('short_description') ? old('short_description') : (isset($product) ? ($product->short_description ? $product->short_description : '') : '') }}
-                                                                                                                    </textarea>
+                                                                                                                                {{ old('short_description') ? old('short_description') : (isset($product) ? ($product->short_description ? $product->short_description : '') : '') }}
+                                                                                                                            </textarea>
                     </div>
                 </div>
             </div>

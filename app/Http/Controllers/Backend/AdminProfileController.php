@@ -17,15 +17,12 @@ class AdminProfileController extends Controller
     {
         $user = Admin::find(3);
         return view('admin.edit_profile', compact('user'));
-        // return view('admin.edit_profile');
-        // return "Hello P";
     }
     public function updateProfile(Request $request)
     {
         $user = Admin::find(3);
         $user->name = $request->name;
         $user->email = $request->email;
-        // dd($user->name);
 
         if (!empty($request->file('profile_photo_path'))) {
             $file = $request->file('profile_photo_path');

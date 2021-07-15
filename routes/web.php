@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Backend\AdminProfileController;
+use App\Http\Controllers\Backend\BrandController;
+use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\CustomerController;
 use App\Http\Controllers\Backend\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,9 +32,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin:admin']], function ()
     Route::get('/product/trashed', [ProductController::class, 'trashed'])->name('product.trashed');
     Route::get('/product/restore/{product}', [ProductController::class, 'restore'])->name('product.restore');
     Route::get('/product/empty-trashed', [ProductController::class, 'empty_trahsed'])->name('product.empty_trashed');
-    Route::get('/product/categories', [ProductController::class, 'categories_view'])->name('product.categories');
     Route::get('/product/permanenet-delete/{product}', [ProductController::class, 'permanenet_delete'])->name('product.permanenet_delete');
     Route::resource('product', ProductController::class);
+    Route::resource('category', CategoryController::class);
+    Route::resource('brand', BrandController::class);
+    Route::resource('customer', CustomerController::class);
 });
 
 

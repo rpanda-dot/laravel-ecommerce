@@ -133,8 +133,7 @@ class ProductController extends Controller
     public function destroy($id)
     {
         Product::destroy($id);
-        $products = Product::all();
-        return view('admin.product.list', compact('products'));
+        return 1;
     }
     public function trashed()
     {

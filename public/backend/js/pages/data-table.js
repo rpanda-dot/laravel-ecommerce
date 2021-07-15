@@ -48,10 +48,10 @@ $(function () {
 	//--------Individual column searching
 	
     // Setup - add a text input to each footer cell
-    $('#example5 tfoot th').each( function () {
-        var title = $(this).text();
-        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
-    } );
+    // $('#example5 tfoot th').each( function () {
+    //     var title = $(this).text();
+    //     $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    // } );
  
     // DataTable
     var table = $('#example5').DataTable();
