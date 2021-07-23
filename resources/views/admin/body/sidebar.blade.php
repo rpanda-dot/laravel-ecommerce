@@ -50,7 +50,6 @@
                 <ul class="treeview-menu">
                     <li><a href="{{ route('customer.index') }}"><i class=" ti-more"></i>All Customers</a></li>
                     <li><a href="{{ route('customer.create') }}"><i class="ti-more"></i>Create New</a></li>
-                    {{-- <li><a href="mailbox_read_mail.html"><i class="ti-more"></i>Read</a></li> --}}
                 </ul>
             </li>
 
@@ -63,11 +62,8 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="profile.html"><i class="ti-more"></i>View Orders</a></li>
-                    <li><a href="invoice.html"><i class="ti-more"></i>Invoice</a></li>
-                    <li><a href="gallery.html"><i class="ti-more"></i>Gallery</a></li>
-                    <li><a href="faq.html"><i class="ti-more"></i>FAQs</a></li>
-                    <li><a href="timeline.html"><i class="ti-more"></i>Timeline</a></li>
+                    <li><a href="{{ route('order.index') }}"><i class="ti-more"></i>View Orders</a></li>
+                    <li><a href="#"><i class="ti-more"></i>Invoice</a></li>
                 </ul>
             </li>
 

@@ -23,6 +23,26 @@
 
                                     </div>
                                     <div class="form-group">
+                                        <h5>Parent Category(Optional) </h5>
+                                        <div class="controls">
+
+                                            <select class="form-control select2 " name="parent_id"
+                                                data-placeholder="Select Parent" style="width: 100%;">
+                                                <option value="">-Select One Option</option>
+
+
+                                                @foreach ($all_categories as $item)
+                                                    <option value="{{ $item['id'] }}">{{ $item['name'] }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+
+
+                                            {{-- <input type="text" name="parent_id" class="form-control"> --}}
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
                                         <div class="controls">
                                             <input type="submit" class="btn btn-rounded btn-primary mb-5" value="submit">
                                         </div>
@@ -45,18 +65,25 @@
                                             <tr>
                                                 <th>Id</th>
                                                 <th>Name</th>
+                                                <th>Parent</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($all_categories as $category)
                                                 <tr>
-                                                    <td>{{ $category->id }}</td>
-                                                    <td>{{ $category->name }}</td>
+                                                    <td>{{ $category['id'] }}</td>
+                                                    <td>{{ $category['name'] }}</td>
+                                                    <td>
+                                                        @for ($i = 0; $i < $category['defth']; $i++)
+                                                            -
+                                                        @endfor
+                                                        {{ $category['parent'] }}
+                                                    </td>
                                                     <td>
 
 
-                                                        <a data-id="{{ $category->id }}"
+                                                        <a data-id="{{ $category['id'] }}"
                                                             data-csrf_token="{{ csrf_token() }}"
                                                             class="waves-effect waves-light btn btn-info btn-circle mx-5 delete-category">
                                                             <span class="mdi mdi-delete"></span>
@@ -72,6 +99,7 @@
                                             <tr>
                                                 <th>Id</th>
                                                 <th>Name</th>
+                                                <th>Parent</th>
                                                 <th>Action</th>
                                             </tr>
                                         </tfoot>

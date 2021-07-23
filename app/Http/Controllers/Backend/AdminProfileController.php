@@ -10,17 +10,17 @@ class AdminProfileController extends Controller
 {
     public function adminProfile()
     {
-        $single_admin = Admin::find(3);
+        $single_admin = Admin::find(1);
         return view('admin.admin_profile', compact('single_admin'));
     }
     public function editAdmin()
     {
-        $user = Admin::find(3);
+        $user = Admin::find(1);
         return view('admin.edit_profile', compact('user'));
     }
     public function updateProfile(Request $request)
     {
-        $user = Admin::find(3);
+        $user = Admin::find(1);
         $user->name = $request->name;
         $user->email = $request->email;
 

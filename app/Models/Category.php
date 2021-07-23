@@ -12,4 +12,12 @@ class Category extends Model
     {
         return $this->belongsToMany(Product::class)->withTimestamps();
     }
+    public function parent()
+    {
+        return $this->belongsTo(Category::class, 'parent_id');
+    }
+    public function childs()
+    {
+        return $this->hasMany(Category::class, 'parent_id', 'id');
+    }
 }

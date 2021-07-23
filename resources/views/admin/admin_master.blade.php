@@ -13,6 +13,7 @@
 
     <!-- Vendors Style-->
     <link rel="stylesheet" href="{{ asset('backend/css/vendors_css.css') }}">
+    <link rel="stylesheet" href="{{ asset('backend/css/custom.css') }}">
 
     <!-- Style-->
     <link rel="stylesheet" href="{{ asset('backend/css/style.css') }}">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use PhpParser\Node\Stmt\Foreach_;
 
 class CategoryController extends Controller
 {
@@ -15,8 +16,28 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $all_categories = Category::all();
+        $null_parent_categories = Category::whereNull('parent_id')->get();
+        $all_categories = [];
+        $defth_of_category = 0;
+        $this->calculate_category($null_parent_categories, $all_categories, $defth_of_category);
         return view('admin.product.category', compact('all_categories'));
+    }
+    private function calculate_category($null_parent_categories, &$category_return_array, $defth_of_category)
+    {
+        foreach ($null_parent_categories as $category) {
+
+            array_push($category_return_array, [
+                'id' => $category->id,
+                'name' => $category->name,
+                'parent' => $category->parent ? $category->parent->name : '-',
+                'defth' => $defth_of_category,
+            ]);
+            $child_categories =  Category::where('parent_id', '=', $category->id)->get();
+            if ($child_categories->isEmpty()) {
+            } else {
+                $this->calculate_category($child_categories, $category_return_array, $defth_of_category + 1);
+            }
+        }
     }
 
     /**
@@ -43,6 +64,7 @@ class CategoryController extends Controller
 
         $category = new Category();
         $category->name =  $request->input('name');
+        $category->parent_id =  $request->input('parent_id');
         $category->save();
 
 

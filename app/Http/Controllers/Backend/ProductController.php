@@ -52,6 +52,20 @@ class ProductController extends Controller
         $product->long_description =  $request->input('long_description');
         $product->sale_price =  $request->input('sale_price');
         $product->price =  $request->input('price');
+
+        $product_images = [];
+
+        if (!empty($request->file('product_images'))) {
+
+            foreach ($request->file('product_images') as $product_image) {
+
+                $file = $product_image;
+                $filename = date('YmdHi') . $file->getClientOriginalName();
+                $file->move(public_path('uploads/product_images'), $filename);
+                array_push($product_images, $filename);
+            }
+        }
+        $product->product_images = $product_images;
         $product->save();
         $product->categories()->attach($request->input('categories'));
 
@@ -114,6 +128,25 @@ class ProductController extends Controller
         $product->long_description =  $request->input('long_description');
         $product->sale_price =  $request->input('sale_price');
         $product->price =  $request->input('price');
+
+        $product_images = [];
+
+        if (!empty($request->file('product_images'))) {
+
+            foreach ($request->file('product_images') as $product_image) {
+
+                $file = $product_image;
+                $filename = date('YmdHi') . $file->getClientOriginalName();
+                $file->move(public_path('uploads/product_images'), $filename);
+                array_push($product_images, $filename);
+            }
+        }
+        if (!empty($request->input('existing_product_images'))) {
+            foreach ($request->input('existing_product_images') as $old_image) {
+                array_push($product_images, $old_image);
+            }
+        }
+        $product->product_images = $product_images;
         $product->save();
         $product->categories()->sync($request->input('categories'));
 

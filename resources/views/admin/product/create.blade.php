@@ -9,11 +9,12 @@
         <section class="content">
 
             @if (isset($product))
-                <form method="POST" action="{{ route('product.update', ['product' => $product->id]) }}">
+                <form method="POST" enctype="multipart/form-data"
+                    action="{{ route('product.update', ['product' => $product->id]) }}">
                     @method('PATCH')
 
                 @else
-                    <form method="POST" action="{{ route('product.store') }}">
+                    <form method="POST" enctype="multipart/form-data" action="{{ route('product.store') }}">
 
             @endif
             @csrf
@@ -48,8 +49,8 @@
                                 <div class="controls">
                                     <input type="number" name="sale_price" class="form-control"
                                         value="{{ old('sale_price') ? old('sale_price') : (isset($product) ? ($product->sale_price ? $product->sale_price : '') : '') }}""
-                                                                                                                        required>
-                                                                                                                    <div class="
+                                                                                                                                                                                    required>
+                                                                                                                                                                                <div class="
                                         help-block">
                                 </div>
                             </div>
@@ -76,6 +77,27 @@
                                 @endforeach
                             </select>
                         </div>
+
+                        <div class="form-group">
+                            <label>Images</label>
+                            <div class="file_inputs">
+                                <span><input type="file" name="product_images[]"><span
+                                        class="close-image mr-5">X</span></span>
+                            </div>
+                            <a id="add-more-image" style="cursor: pointer">+Add</a>
+                        </div>
+                        <div class="form-group">
+                            @if (isset($product))
+
+                                @foreach ($product->product_images as $item)
+                                    <span><img height="100" width="100"
+                                            src="{{ url('uploads/product_images/' . $item) }}"><span
+                                            class="close-image mr-5">X</span>
+                                        <input type="hidden" value="{{ $item }}" name="existing_product_images[]">
+                                    </span>
+                                @endforeach
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
@@ -90,8 +112,8 @@
                     <div class="box-body">
 
                         <textarea id="long_description" name="long_description" rows="10" cols="80">
-                                                                                                                                {{ old('long_description') ? old('long_description') : (isset($product) ? ($product->long_description ? $product->long_description : '') : '') }}
-                                                                                                                                                                </textarea>
+                                                                                                                                                                                            {{ old('long_description') ? old('long_description') : (isset($product) ? ($product->long_description ? $product->long_description : '') : '') }}
+                                                                                                                                                                                                                            </textarea>
                     </div>
                 </div>
 
@@ -109,8 +131,8 @@
                         <textarea name="short_description" id="short_description" class="textarea"
                             placeholder="Short Description of your product"
                             style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">
-                                                                                                                                {{ old('short_description') ? old('short_description') : (isset($product) ? ($product->short_description ? $product->short_description : '') : '') }}
-                                                                                                                            </textarea>
+                                                                                                                                                                                            {{ old('short_description') ? old('short_description') : (isset($product) ? ($product->short_description ? $product->short_description : '') : '') }}
+                                                                                                                                                                                        </textarea>
                     </div>
                 </div>
             </div>

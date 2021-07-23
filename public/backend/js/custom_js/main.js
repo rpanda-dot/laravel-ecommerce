@@ -58,6 +58,35 @@ $(document).ready(function () {
 
         }
     });
+
+    $('.delete-customer').on('click', function () {
+        if (confirm('Are you sure?')) {
+            var id = $(this).data("id");
+            var token = $(this).data("csrf_token");
+            $.ajax({
+                url: "customer/" + id,
+                type: 'DELETE',
+                dataType: "JSON",
+                data: {
+                    "id": id,
+                    "_method": 'DELETE',
+                    "_token": token,
+                },
+                success: function () {
+                    location.reload();
+                }
+            });
+
+        }
+    });
+    $('#add-more-image').on('click', function () {
+        $('.file_inputs').append('<span><input type="file" name="product_images[]"><span class="close-image mr-5">X</span></span>');
+    });
+    $('.close-image').on('click', function () {
+        console.log('Image Deleted');
+        $(this).parent().remove();
+    });
+
     //Initialize Select2 Elements
     $('.select2').select2();
 

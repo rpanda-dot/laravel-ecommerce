@@ -14,4 +14,11 @@ class Product extends Model
     {
         return $this->belongsToMany(Category::class)->withTimestamps();
     }
+    public function orders()
+    {
+        return $this->belongsToMany(Product::class);
+    }
+    protected $casts = [
+        'product_images' => 'array',
+    ];
 }

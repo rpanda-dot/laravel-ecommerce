@@ -5,7 +5,10 @@ use App\Http\Controllers\Backend\AdminProfileController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\CustomerController;
+use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Frontend\HomePageController;
+use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,9 +22,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/', [HomePageController::class, 'index'])->name('home.index');
+Route::get('/shop/category/{category_id}', [ShopController::class, 'category_index'])->name('shop.category');
+
 
 Route::group(['prefix' => 'admin', 'middleware' => ['admin:admin']], function () {
     Route::get('/login', [AdminController::class, 'loginForm']);
@@ -37,6 +41,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin:admin']], function ()
     Route::resource('category', CategoryController::class);
     Route::resource('brand', BrandController::class);
     Route::resource('customer', CustomerController::class);
+    Route::resource('order', OrderController::class);
 });
 
 
